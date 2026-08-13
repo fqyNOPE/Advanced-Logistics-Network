@@ -1,0 +1,10 @@
+{
+  "displayName": "进阶物流网络 Advanced Logistics Network",
+  "name": "logistics-network",
+  "author": "fqyNOPE",
+  "main": "logistics.LogisticsMod",
+  "description": "Provides a more efficient, more versatile drone-based item logistics network.",
+  "version": 1.0,
+  "minGameVersion": 158,
+  "java": true
+}
