@@ -225,10 +225,12 @@ public class LogisticsAI extends AIController{
             releaseClaim();
         }
 
-        //nearest request point that needs its requested item and still has free slots,
-        //both for the request gap (gap-based) and for the source stock (stock-based)
+        //request point with the highest priority that needs its requested item
+        //and still has free slots (strict tiering: priority decides first,
+        //distance only breaks ties within the same priority)
         Building best = null;
         Building bestSrc = null;
+        int bestPri = Integer.MIN_VALUE;
         float bestDst = Float.MAX_VALUE;
         for(Building b : LogisticsNetwork.get(LogisticsNetwork.requesters, unit.team)){
             if(!b.isValid() || !(b.block instanceof RequestPoint) || b.items == null) continue;
@@ -242,7 +244,8 @@ public class LogisticsAI extends AIController{
             int allowed = Math.min(gapDrones, srcDrones);
             if(LogisticsNetwork.countClaims(unit.team, b.tile.pos()) >= allowed) continue;
             float d = unit.dst(b);
-            if(d < bestDst){
+            if(req.priority > bestPri || (req.priority == bestPri && d < bestDst)){
+                bestPri = req.priority;
                 bestDst = d;
                 best = b;
                 bestSrc = src;
@@ -280,8 +283,10 @@ public class LogisticsAI extends AIController{
             releaseClaim();
         }
 
-        //2. nearest request point wanting this item that still has a free drone slot
+        //2. highest-priority request point wanting this item that still has a
+        //   free drone slot (strict tiering: priority first, distance as tiebreak)
         Building best = null;
+        int bestPri = Integer.MIN_VALUE;
         float bestDst = Float.MAX_VALUE;
         for(Building b : LogisticsNetwork.get(LogisticsNetwork.requesters, unit.team)){
             if(!b.isValid() || !(b.block instanceof RequestPoint) || b.items == null) continue;
@@ -289,7 +294,9 @@ public class LogisticsAI extends AIController{
             if(!needsItem(b, item)) continue;
             if(LogisticsNetwork.countClaims(unit.team, b.tile.pos()) >= allowedDrones(b, item)) continue;
             float d = unit.dst(b);
-            if(d < bestDst){
+            RequestPoint.RequestBuild req = (RequestPoint.RequestBuild)b;
+            if(req.priority > bestPri || (req.priority == bestPri && d < bestDst)){
+                bestPri = req.priority;
                 bestDst = d;
                 best = b;
             }

@@ -16,9 +16,10 @@ ext{
 repositories{
     mavenCentral()
 
-    //local mirror of the Mindustry dependencies jar (workspace/local-repo, maven layout) - avoids network
+    //local mirror of the Mindustry dependencies jar (workspace/local-repo, maven layout) - avoids network.
+    //toURI() percent-encodes the path, so workspaces containing spaces ("C:\dsh workspace") resolve correctly
     maven{
-        url = 'file:///' + file('../..').absolutePath.replace('\\', '/') + '/local-repo/'
+        url = file('../../local-repo').toURI().toString()
     }
 
     //Downloads the dependencies JAR file from Mindustry releases; fallback when the local mirror is missing.
