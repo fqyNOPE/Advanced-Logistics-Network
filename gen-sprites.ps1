@@ -1,9 +1,9 @@
 Add-Type -AssemblyName System.Drawing
 
-$dir = "D:\Users\Administrator\.openclaw\workspace\_mods_src\LogisticsNetwork\assets\sprites"
+$dir = "C:\dsh workspace\_mods_src\LogisticsNetwork\assets\sprites"
 $blocks = "$dir\blocks"
 $units = "$dir\units"
-$root = "D:\Users\Administrator\.openclaw\workspace\_mods_src\LogisticsNetwork"
+$root = "C:\dsh workspace\_mods_src\LogisticsNetwork"
 New-Item -ItemType Directory -Force -Path $blocks, $units | Out-Null
 
 function New-Bitmap([int]$w, [int]$h) {

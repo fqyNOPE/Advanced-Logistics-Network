@@ -18,3 +18,9 @@ Factorio 风格的物流网络系统（Logistics Network）。代码完全由ai�
 - `LogisticsBase.produceTime` — 生产一架所需 tick（默认 3600 = **60 秒**）
 - `LogisticsAI.retargetTime` / `moveRange` / `transferRange` — AI 寻路参数
 - `LogisticsAI.requestThreshold` — 蓝箱需求阈值（默认 40，缺口≥该值才补货）
+
+## sfire-mod（饱和火力）兼容
+
+当 **sfire-mod**（`饱和火力`，mod 名 `sfire-mod`）已加载时，物流基站的造价自动改为 **120 silisteel**（研究费用同步）；未加载 sfire-mod 时保持原造价（硅 60 + 超合金 120）不变。
+
+实现方式：`mod.json` 声明 `softDependencies: ["sfire-mod"]`（软依赖，缺失时本 mod 照常加载，仅提示），`LogisticsBlocks.applySFireCompat()` 在内容加载阶段检测 sfire-mod 是否加载、`silisteel` 物品是否注册，命中则改写 `requirements`/`researchCost`。

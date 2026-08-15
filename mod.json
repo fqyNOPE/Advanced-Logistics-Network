@@ -6,5 +6,6 @@
   "description": "Provides a more efficient, more versatile drone-based item logistics network.",
   "version": 1.0,
   "minGameVersion": 158,
-  "java": true
+  "java": true,
+  "softDependencies": ["sfire-mod"]
 }
