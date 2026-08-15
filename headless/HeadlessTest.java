@@ -16,8 +16,11 @@ import mindustry.ui.*;
  * <cwd>/config/mods/.
  */
 public class HeadlessTest implements ApplicationListener{
+    /** Scenario selected on the command line ("priority" or empty for the default test). */
+    static String scenario = "";
 
     public static void main(String[] args){
+        scenario = args.length > 0 ? args[0] : "";
         try{
             Log.useColors = false;
             Vars.loadLogger();
@@ -63,7 +66,9 @@ public class HeadlessTest implements ApplicationListener{
 
         Core.app.addListener(Vars.logic = new Logic());
         Core.app.addListener(Vars.netServer = new NetServer());
-        Core.app.addListener(new TestDriver());
+        //scenario selection: "priority" runs the request-point priority test,
+        //anything else runs the default production/power test
+        Core.app.addListener("priority".equals(scenario) ? new PriorityTest() : new TestDriver());
 
         Vars.mods.eachClass(Mod::init);
 

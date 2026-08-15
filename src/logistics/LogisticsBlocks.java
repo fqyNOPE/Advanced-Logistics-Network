@@ -1,6 +1,8 @@
 package logistics;
 
+import arc.util.*;
 import logistics.blocks.*;
+import mindustry.*;
 import mindustry.content.*;
 import mindustry.type.*;
 import mindustry.world.*;
@@ -41,6 +43,31 @@ public class LogisticsBlocks{
         logisticsStoragePoint.researchCost = ItemStack.with(silicon, 20, surgeAlloy, 10);
         logisticsStoragePoint.itemCapacity = 320;
         showOnBothPlanets(logisticsStoragePoint);
+
+        applySFireCompat();
+    }
+
+    /**
+     * sfire-mod ("Saturation Firepower") compatibility: when that mod is loaded, the logistics
+     * base costs <b>120 silisteel</b> instead of silicon + surge alloy. When it is not loaded,
+     * costs stay unchanged.
+     * <p>
+     * This runs at the end of {@link #load()}, i.e. before the tech tree nodes are created in
+     * {@link LogisticsMod#loadContent()}, so both the build cost and the research cost switch to
+     * silisteel. A soft dependency declared in mod.json guarantees sfire-mod's content is already
+     * registered when this runs; it does not prevent this mod from loading when sfire-mod is missing.
+     */
+    static void applySFireCompat(){
+        //only when sfire-mod is actually loaded
+        if(Vars.mods.locateMod("sfire-mod") != null){
+            Item silisteel = Vars.content.item("silisteel");
+            //guard: item must exist (e.g. sfire-mod failed to load its content)
+            if(silisteel != null){
+                ItemStack[] cost = ItemStack.with(silisteel, 120);
+                logisticsBase.requirements(Category.distribution, cost);
+                logisticsBase.researchCost = cost;
+            }
+        }
     }
 
     /**

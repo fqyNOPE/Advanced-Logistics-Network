@@ -20,7 +20,7 @@ import mindustry.world.blocks.environment.*;
  */
 public class TestDriver implements ApplicationListener{
     static final int BASE_X = 20, BASE_Y = 24;
-    static final int POWER_X = 19, POWER_Y = 24;
+    static final int POWER_X = 18, POWER_Y = 24; //18: adjacent-left of the 3x3 base (19-21,23-25); 19 was inside the footprint and got deleted
     static final int SUPPLY_X = 15, SUPPLY_Y = 24;
     static final int REQ_X = 25, REQ_Y = 24;
 
