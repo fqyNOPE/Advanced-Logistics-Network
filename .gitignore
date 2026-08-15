@@ -161,3 +161,6 @@ android/libs/
 headless-build/
 headless-run/
 
+
+# local-only project context - never uploaded to GitHub
+CONTEXT.md
