@@ -45,10 +45,10 @@ public class PriorityTest implements ApplicationListener{
         }
 
         if(ticks == CONFIGURE){
-            System.out.println("[test] configure: near req (25,24) priority=0, far req (33,24) priority=9, both want copper");
+            System.out.println("[test] configure: near req (25,24) priority=1, far req (33,24) priority=9, both want copper");
             buildAt(REQ_NEAR_X, REQ_NEAR_Y).configure(Items.copper);
             buildAt(REQ_FAR_X, REQ_FAR_Y).configure(Items.copper);
-            setPriority(REQ_NEAR_X, REQ_NEAR_Y, 0);
+            setPriority(REQ_NEAR_X, REQ_NEAR_Y, 1); //1..9 range
             setPriority(REQ_FAR_X, REQ_FAR_Y, 9);
             //sanity: read back what was set
             System.out.println("[test] readback priNear=" + getPriority(REQ_NEAR_X, REQ_NEAR_Y)

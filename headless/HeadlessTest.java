@@ -67,8 +67,10 @@ public class HeadlessTest implements ApplicationListener{
         Core.app.addListener(Vars.logic = new Logic());
         Core.app.addListener(Vars.netServer = new NetServer());
         //scenario selection: "priority" runs the request-point priority test,
+        //"capacity" runs the request-point item cap test,
         //anything else runs the default production/power test
-        Core.app.addListener("priority".equals(scenario) ? new PriorityTest() : new TestDriver());
+        Core.app.addListener("priority".equals(scenario) ? new PriorityTest()
+            : "capacity".equals(scenario) ? new CapacityTest() : new TestDriver());
 
         Vars.mods.eachClass(Mod::init);
 
