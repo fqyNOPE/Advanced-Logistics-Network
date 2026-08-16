@@ -45,9 +45,15 @@ public class LogisticsAI extends AIController{
     /** Tile position of the base that produced this drone; -1 = unknown (after loading a save), re-derived from the producing base's bot list. */
     public int homePos = -1;
 
-    /** Whether a request point actually needs more of this item (hysteresis-aware). */
+    /**
+     * Whether a request point actually needs more of this item (hysteresis-aware).
+     * The threshold is capped at the chest's cap: for caps below
+     * {@link #requestThreshold} (e.g. a 10% = 32-item cap) the chest refills
+     * once empty instead of never triggering.
+     */
     static boolean needsItem(Building b, Item item){
-        return b.items.get(item) <= b.getMaximumAccepted(item) - requestThreshold;
+        int cap = b.getMaximumAccepted(item);
+        return b.items.get(item) <= cap - Math.min(requestThreshold, cap);
     }
 
     @Override

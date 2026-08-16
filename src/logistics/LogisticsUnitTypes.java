@@ -15,7 +15,7 @@ public class LogisticsUnitTypes{
         logisticsBot = new UnitType("logistics-bot"){{
             flying = true;
             lowAltitude = true;
-            speed = 1.5f;
+            speed = 2f;
             accel = 0.5f;
             drag = 0.2f;
             health = 120f;
